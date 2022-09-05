@@ -17,12 +17,14 @@ const Tweet = ({ t, reply, profilePage }) => {
     const currentUser = useSelector(state => state.user.currentUser);
     const tweetList = useSelector(state => state.tweet.tweetList);
     const [show, setShow] = useState(false);
-    const [updatedTweet, setUpdatedTweet] = useState();
 
     // console.log(t);
     const {
         datePosted, tag, subject, user, id, likes, replies
     } = t;
+
+    const [updatedTweet, setUpdatedTweet] = useState(subject);
+
 
     // console.log(likes);
     // console.log(currentUser);
@@ -121,12 +123,13 @@ const Tweet = ({ t, reply, profilePage }) => {
                     </Modal.Header>
 
                     <Modal.Body>
-                        <form style={{ minWidth: 300 + "px" }} onSubmit={handleSubmit}>
+                        <form style={{ minWidth: 400 + "px" }} onSubmit={handleSubmit}>
                             <textarea
                                 placeholder="What's happening?"
                                 className='form-control mb-3'
                                 maxLength={280}
                                 name="subject"
+                                value={updatedTweet}
                                 onChange={(e) => setUpdatedTweet(e.target.value)}
                             />
                             <button type="submit" className="btn btn-primary">Update</button>

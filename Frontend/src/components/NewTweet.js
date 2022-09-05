@@ -29,14 +29,15 @@ const NewTweet = () => {
 
     return (
         <div>
-            <h3 className='center'>Compose new Tweet</h3>
+            <h3 className='center mt-5'>Compose new Tweet</h3>
             <form className='new-tweet' onChange={handleChange} onSubmit={handleSubmit}>
-                <input name='tag' className='form-control mb-2' placeholder='Enter tag'/>
+                <input name='tag' className='form-control mb-2' placeholder='Enter tag' maxLength={50}/>
                 <textarea
                     placeholder="What's happening?"
                     className='form-control mb-3'
-                    maxLength={280}
+                    maxLength={144}
                     name="subject"
+                    rows={4}
                 />
                 <button
                     className='btn btn-primary'

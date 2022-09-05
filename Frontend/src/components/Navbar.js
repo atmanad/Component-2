@@ -7,7 +7,7 @@ import { authActions } from '../store/auth-slice';
 function Navbar({ loggedIn, currentUser }) {
     return (
         <>
-            <div className='nav justify-content-center border border-primary'>
+            <div className='nav justify-content-center'>
                 <ul>
                     {loggedIn ? <LoggedIn currentUser={currentUser} /> : <LoggedOut />}
                 </ul>

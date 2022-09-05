@@ -14,12 +14,16 @@ a {
 .active {
   font-weight: bold;
 }
-
+.nav{
+  border-bottom:1px solid #252525;
+}
 .nav ul {
   display: flex;
+  padding-top: 10px;
   flex-direction: row;
   justify-content: flex-start;
   text-decoration: none;
+
 }
 
 .nav li:first-child {

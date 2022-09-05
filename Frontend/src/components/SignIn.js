@@ -50,9 +50,9 @@ function SignIn({ loggedIn }) {
 
   return (
     <div>
-      <div className="container">
+      <div className="container mt-5">
         <div className="row justify-content-center">
-          <div className="col-md-6 card px-3 py-2">
+          <div className="col-md-6 card px-3 py-2" style={{ maxWidth: 400 + "px" }}>
             <Formik
               initialValues={{ username: "", password: "" }}
               validationSchema={validationSchema}

@@ -88,17 +88,17 @@ function TweetReply({ tweet, id, email, tweetList, setTweet }) {
 
     console.log(tweet);
     return (
-        <div>
+        <div className='mt-5'>
             <Tweet t={tweet} reply={true} />
             <div>
-                <h3 className='center'>Add a reply</h3>
+                <h4 className='center mt-5'>Add a reply</h4>
                 <form className='new-tweet' onSubmit={handleSubmit}>
-                    <input name='message' className='form-control mb-2' placeholder='Reply...' onChange={(e) => setReply(e.target.value)} />
-                    <button className='btn' type='submit'>Submit</button>
+                    <input name='message' className='form-control mb-2' maxLength={144} placeholder='Reply...' onChange={(e) => setReply(e.target.value)} />
+                    <button className='btn btn-primary' type='submit'>Submit</button>
                 </form>
             </div>
             {/* <NewTweet id={id} /> */}
-            {tweet.replies.length !== 0 && <h3 className='center'>Replies</h3>}
+            {tweet.replies.length !== 0 && <h4 className='center mt-5'>Replies</h4>}
             <ul>
                 {tweet.replies.map((reply) => (
                     <li key={reply.id}>
