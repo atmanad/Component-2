@@ -9,6 +9,7 @@ import { deleteTweet, postALike, updateTweet } from '../services/TweetService';
 import { useSelector, useDispatch } from 'react-redux';
 import { tweetActions } from '../store/tweet-slice';
 import { toast } from 'react-toastify';
+import { useEffect } from 'react';
 
 
 const Tweet = ({ t, reply, profilePage }) => {
@@ -17,28 +18,21 @@ const Tweet = ({ t, reply, profilePage }) => {
     const currentUser = useSelector(state => state.user.currentUser);
     const tweetList = useSelector(state => state.tweet.tweetList);
     const [show, setShow] = useState(false);
-
-    // console.log(t);
+    
     const {
         datePosted, tag, subject, user, id, likes, replies
     } = t;
 
     const [updatedTweet, setUpdatedTweet] = useState(subject);
 
-
-    // console.log(likes);
-    // console.log(currentUser);
-    const hasLiked = likes.filter(element => element.userId == currentUser.email);
-    // console.log(hasLiked);
-
-
+    const hasLiked = likes.filter(element => element.userId === currentUser.email);
 
     const handleLike = (e) => {
         e.preventDefault();
         postALike(id, currentUser).then((res) => {
             if (res) {
                 tweetList.forEach((element, index) => {
-                    if (element.id == id) {
+                    if (element.id === id) {
                         dispatch(tweetActions.addLike({
                             index: index,
                             like: {
@@ -49,9 +43,6 @@ const Tweet = ({ t, reply, profilePage }) => {
                     }
                 });
             }
-            // console.log(id, user);
-            // console.log("success");
-            // navigate('/dashboard');
         }, error => console.log(error));
 
     }
@@ -61,18 +52,6 @@ const Tweet = ({ t, reply, profilePage }) => {
         const time = d.toLocaleTimeString('en-US')
         return time.substr(0, 5) + time.slice(-2) + ' | ' + d.toLocaleDateString()
     }
-    // toParent = (e, id) => {
-    //     e.preventDefault()
-    //     this.props.history.push(`/tweet/${id}`)
-
-    // }
-    // const { tweet } = this.props;
-    // console.log(props);
-    // if ( tweet === null) {
-    //     return <p>The tweet dosen't exist</p>
-    // }
-
-    // console.log(user);
 
 
     const handleShow = () => setShow(true);

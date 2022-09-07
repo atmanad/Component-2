@@ -1,7 +1,4 @@
 import api from "../api/api"
-import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { userActions } from "../store/user-slice";
 
 export const register = async (credentials) => {
     try {

@@ -1,12 +1,4 @@
-import { useState } from 'react';
 import api from '../api/api'
-import { useHistory, useNavigate } from 'react-router-dom';
-import { Tweet } from '../models/Tweet'
-
-
-
-let tweetRegistry = new Map();
-
 
 export const loadAllTweet = async () => {
     let tweetList = [];
@@ -24,10 +16,10 @@ export const loadAllTweet = async () => {
             tweets.forEach(element => {
                 let tweet = {
                     ...element,
-                    user: users.filter(ele => ele.email == element.userId)[0],
-                    likes: likes.filter(ele => ele.tweetId == element.id),
-                    replies: replies.filter(ele => ele.tweetId == element.id),
-                    hasLiked: likes?.filter(ele => ele.tweetId == element?.id && ele.userId == element.userId)[0]?.id
+                    user: users.filter(ele => ele.email === element.userId)[0],
+                    likes: likes.filter(ele => ele.tweetId === element.id),
+                    replies: replies.filter(ele => ele.tweetId === element.id),
+                    hasLiked: likes?.filter(ele => ele.tweetId === element?.id && ele.userId === element.userId)[0]?.id
                 }
                 tweetList.push(tweet);
             });
@@ -57,7 +49,7 @@ export const selectTweet = async (id) => {
             tweet = response.result;
             const userResponse = await api.User.list();
             let users = userResponse.result;
-            tweet.user = users.filter(ele => ele.email == tweet.userId)[0];
+            tweet.user = users.filter(ele => ele.email === tweet.userId)[0];
             return tweet;
         }
         // console.log(tweet);
@@ -66,37 +58,37 @@ export const selectTweet = async (id) => {
     }
 }
 
-export const loadLikes = async () => {
-    try {
-        var response = await api.Tweet.likeDetails();
-        let likes = response.result;
-    } catch (error) {
-        console.log(error);
-    }
-};
+// export const loadLikes = async () => {
+//     try {
+//         var response = await api.Tweet.likeDetails();
+//         let likes = response.result;
+//     } catch (error) {
+//         console.log(error);
+//     }
+// };
 
 
-export const loadLikeUsers = async () => {
-    let userTweetLikeRegistry = new Map();
-    userTweetLikeRegistry.set(99999, [1, 2, 3]);
+// export const loadLikeUsers = async () => {
+//     let userTweetLikeRegistry = new Map();
+//     userTweetLikeRegistry.set(99999, [1, 2, 3]);
 
-    try {
-        var response = await api.Tweet.likeDetails();
+//     try {
+//         var response = await api.Tweet.likeDetails();
 
-        response.result.map((x) => {
-            if (userTweetLikeRegistry.has(x.tweetId)) {
-                userTweetLikeRegistry.get(x.tweetId).push(x.userId);
-            } else {
-                var user1 = [];
-                user1.push(x.userId);
-                userTweetLikeRegistry.set(x.tweetId, user1);
-            }
-        });
-        return userTweetLikeRegistry;
-    } catch (error) {
-        console.log(error);
-    }
-};
+//         response.result.map((x) => {
+//             if (userTweetLikeRegistry.has(x.tweetId)) {
+//                 userTweetLikeRegistry.get(x.tweetId).push(x.userId);
+//             } else {
+//                 var user1 = [];
+//                 user1.push(x.userId);
+//                 userTweetLikeRegistry.set(x.tweetId, user1);
+//             }
+//         });
+//         return userTweetLikeRegistry;
+//     } catch (error) {
+//         console.log(error);
+//     }
+// };
 
 export const postALike = async (id, user) => {
     try {

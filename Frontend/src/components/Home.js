@@ -1,6 +1,6 @@
 function Home(){
     return(
-        <div className="home">Welcome to Tweet App</div>
+        <h2 className="home">Welcome to Tweet App</h2>
     )
 
 }

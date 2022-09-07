@@ -1,9 +1,10 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import * as Yup from "yup";
-import { Formik, Form, ErrorMessage } from 'formik';
+import { Formik, Form } from 'formik';
 import Input from './Input';
 import { register } from '../services/UserService';
+import {toast} from 'react-toastify'
 
 function Register() {
   const phoneRegExp = /^\d{10}$/;
@@ -25,6 +26,7 @@ function Register() {
       return
     }
     register(values).then(() => {
+      toast.success("Registraion successful");
       navigate('/login');
     }, error => {
       console.log("registration error", error);

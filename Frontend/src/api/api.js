@@ -1,7 +1,4 @@
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { authActions } from "../store/auth-slice";
-
 
 axios.defaults.baseURL = "https://localhost:7149/api/v1/tweets";
 // axios.defaults.headers.common['Authorization'] = `Bearer ${GetToken()}`;

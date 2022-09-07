@@ -16,6 +16,7 @@ a {
 }
 .nav{
   border-bottom:1px solid #252525;
+  font-size: 25px !important;
 }
 .nav ul {
   display: flex;

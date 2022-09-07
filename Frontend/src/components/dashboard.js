@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { showLoading, hideLoading } from 'react-redux-loading'
 import Tweet from './Tweet';
 import { loadAllTweet } from '../services/TweetService';
@@ -52,7 +52,6 @@ const Dashboard = ({ loggedIn }) => {
         tweetList.length !== 0 &&
         (
             <div>
-                <h3 className='center'>Your Timeline</h3>
                 <ul className='dashboard-list'>
                     {tweetList?.map((tweet) => (
                         <li key={tweet?.id}>

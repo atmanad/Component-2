@@ -12,23 +12,7 @@ const TweetPage = ({ tweetList, currentUser }) => {
     const [tweet, setTweet] = useState("");
     const { id } = useParams();
     const [loading, setLoading] = useState(true);
-    // let tweetList = useSelector(state => state.tweet.tweetList);
 
-
-    // function findTweetById(){
-    //     tweetById = tweetList.filter(ele => ele.id == id)[0];
-    // }
-
-
-    // const loadTweetById = () => {
-    //     loadAllTweet().then((response) => {
-    //         let tweetById = response.filter(element => element.id == id)[0];
-    //         setTweet(tweetById);
-    //         // console.log(tweetById);
-    //     }, error => {
-    //         console.log(error);
-    //     })
-    // }
     useEffect(() => {
         console.log(tweetList);
         const tweetById = tweetList.filter(ele => ele.id == id)[0];
@@ -72,12 +56,7 @@ function TweetReply({ tweet, id, email, tweetList, setTweet }) {
                         setTweet(tweet =>({
                             ...tweet,
                             newTweet
-                        }))
-                        // tweet.replies.push({
-                        //     tweetId: id,
-                        //     userId: email,
-                        //     message: reply
-                        // })
+                        }));
                     }
                 });
                 navigate('/dashboard');
