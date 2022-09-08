@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
+using Serilog.Events;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Text;
 using TweetApp.Backend.Interfaces;
@@ -18,82 +20,112 @@ namespace TweetApp.Backend
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddCors();
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .WriteTo.File("logs/my-logs.txt", rollingInterval: RollingInterval.Hour, restrictedToMinimumLevel:LogEventLevel.Information)
+                .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+                .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", LogEventLevel.Warning)
+                .CreateLogger();
+                
 
-            var config = new MapperConfiguration(cfg =>
+            try
             {
-                cfg.AddProfile(new Mappings());
-            });
+                Log.Information("Starting web host");
+                var builder = WebApplication.CreateBuilder(args);
+                builder.Logging.AddConsole();
 
-            var mapper = config.CreateMapper();
 
-            // Add services to the container.
+                //builder.Host.UseSerilog((ctx, lc) => lc.WriteTo.Console());
+                builder.Host.UseSerilog();
 
-            builder.Services.AddControllers();
-            builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-            builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddScoped<IRabbitMQMessageSender, RabbitMQMessageSender>();
-            builder.Services.AddSingleton(mapper);
+                //builder.Host.UseSerilog();
 
-            builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-            builder.Services.AddSwaggerGen();
+                builder.Services.AddCors();
 
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
-            builder.Services.AddApiVersioning(options =>
-            {
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.DefaultApiVersion = new ApiVersion(1, 0);
-                options.ReportApiVersions = true;
-            });
-
-            builder.Services.AddVersionedApiExplorer(options => options.GroupNameFormat = "'v'VVV");
-
-            var appSettingsSection = builder.Configuration.GetSection("AppSettings");
-            builder.Services.Configure<AppSettings>(appSettingsSection);
-            var appSettings = appSettingsSection.Get<AppSettings>();
-            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-
-            builder.Services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-                .AddJwtBearer(x =>
+                var config = new MapperConfiguration(cfg =>
                 {
-                    x.RequireHttpsMetadata = false;
-                    x.SaveToken = true;
-                    x.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
-                    };
+                    cfg.AddProfile(new Mappings());
                 });
 
-            var app = builder.Build();
+                var mapper = config.CreateMapper();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                // Add services to the container.
+
+                builder.Services.AddControllers();
+                builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+                builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+                builder.Services.AddScoped<IRabbitMQMessageSender, RabbitMQMessageSender>();
+                builder.Services.AddSingleton(mapper);
+
+                builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+                builder.Services.AddSwaggerGen();
+
+                // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+                builder.Services.AddEndpointsApiExplorer();
+                builder.Services.AddSwaggerGen();
+
+                builder.Services.AddApiVersioning(options =>
+                {
+                    options.AssumeDefaultVersionWhenUnspecified = true;
+                    options.DefaultApiVersion = new ApiVersion(1, 0);
+                    options.ReportApiVersions = true;
+                });
+
+                builder.Services.AddVersionedApiExplorer(options => options.GroupNameFormat = "'v'VVV");
+
+                var appSettingsSection = builder.Configuration.GetSection("AppSettings");
+                builder.Services.Configure<AppSettings>(appSettingsSection);
+                var appSettings = appSettingsSection.Get<AppSettings>();
+                var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+
+                builder.Services.AddAuthentication(x =>
+                {
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                    .AddJwtBearer(x =>
+                    {
+                        x.RequireHttpsMetadata = false;
+                        x.SaveToken = true;
+                        x.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuerSigningKey = true,
+                            IssuerSigningKey = new SymmetricSecurityKey(key),
+                            ValidateIssuer = false,
+                            ValidateAudience = false
+                        };
+                    });
+
+                var app = builder.Build();
+
+                // Configure the HTTP request pipeline.
+                if (app.Environment.IsDevelopment())
+                {
+                    app.UseSwagger();
+                    app.UseSwaggerUI();
+                }
+
+                //app.UseRabbitListener();
+                app.UseHttpsRedirection();
+                app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+                app.UseAuthentication();
+                app.UseAuthorization();
+                app.UseSerilogRequestLogging();
+
+                app.MapControllers();
+
+                app.Run();
             }
-
-            //app.UseRabbitListener();
-            app.UseHttpsRedirection();
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.MapControllers();
-
-            app.Run();
+            catch(Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
+           
 
 
         }

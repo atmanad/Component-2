@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Serilog;
 using System.Security.Cryptography;
 using TweetApp.Backend.Dto;
 using TweetApp.Backend.Interfaces;
@@ -40,9 +41,11 @@ namespace TweetApp.Backend.Controllers
                 var users = await _unitOfWork.User.GetAll();
                 _response.DisplayMessage = "User list retrieved successfully";
                 _response.Result = users;
+                Log.Information("Getting all users");
             }
             catch (Exception ex)
             {
+                Log.Error("Error cannot find the list");
                 _response.IsSuccess = false;
                 _response.DisplayMessage = "Error cannot find the list";
                 _response.ErrorMessages = new List<string> { ex.Message };
@@ -62,14 +65,17 @@ namespace TweetApp.Backend.Controllers
                 if (user == null)
                 {
                     _response.DisplayMessage = "No user found";
+                    Log.Information("No user found");
                 }
                 else
                 {
                     _response.DisplayMessage = "User retrieved successfully";
+                    Log.Information("User retrieved successfully");
                 }
             }
             catch (Exception ex)
             {
+                Log.Error("Something went wrong!");
                 _response.IsSuccess = false;
                 _response.DisplayMessage = "Something went wrong!";
                 _response.ErrorMessages = new List<string> { ex.Message };
@@ -113,6 +119,7 @@ namespace TweetApp.Backend.Controllers
         {
             try
             {
+
                 var user = await _unitOfWork.User.Get(x => x.Email == model.Username && x.Password == model.Password);
 
                 if (user == null) throw new Exception("Invalid username or password");
@@ -121,9 +128,13 @@ namespace TweetApp.Backend.Controllers
                 _response.Result = user;
                 _response.DisplayMessage = "Login successful for " + model.Username;
                 _response.Token = token;
+                // _logger.LogInformation("Logged in user {user}", model.Username);
             }
             catch (Exception ex)
             {
+                Log.Error("Invalid username or password");
+                Log.Information("Invalid username or password");
+                // Log.Information("Inf");
                 _response.IsSuccess = false;
                 _response.DisplayMessage = "Something went wrong while logging in.";
                 _response.ErrorMessages = new List<string> { ex.Message };

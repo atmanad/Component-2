@@ -1,0 +1,35 @@
+2022-09-08 13:15:08.599 +05:30 [INF] Starting web host
+2022-09-08 13:21:41.538 +05:30 [INF] Starting web host
+2022-09-08 13:21:43.357 +05:30 [INF] Now listening on: https://localhost:7149
+2022-09-08 13:21:43.365 +05:30 [INF] Now listening on: http://localhost:5149
+2022-09-08 13:21:43.370 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2022-09-08 13:21:43.372 +05:30 [INF] Hosting environment: Development
+2022-09-08 13:21:43.374 +05:30 [INF] Content root path: C:\Users\cogdotnet1008\Downloads\Component 2\TweetApp.Backend\
+2022-09-08 13:21:56.601 +05:30 [INF] Entity Framework Core 6.0.8 initialized 'ApplicationDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.8' with options: None
+2022-09-08 13:21:59.770 +05:30 [ERR] Invalid username or password
+2022-09-08 13:21:59.773 +05:30 [INF] Invalid username or password
+2022-09-08 13:22:00.163 +05:30 [INF] HTTP POST /api/v1/tweets/login responded 200 in 5051.2448 ms
+2022-09-08 13:22:01.257 +05:30 [INF] Entity Framework Core 6.0.8 initialized 'ApplicationDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.8' with options: None
+2022-09-08 13:22:01.583 +05:30 [ERR] Invalid username or password
+2022-09-08 13:22:01.586 +05:30 [INF] Invalid username or password
+2022-09-08 13:22:01.623 +05:30 [INF] HTTP POST /api/v1/tweets/login responded 200 in 419.3934 ms
+2022-09-08 13:22:02.449 +05:30 [INF] Entity Framework Core 6.0.8 initialized 'ApplicationDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.8' with options: None
+2022-09-08 13:22:02.766 +05:30 [ERR] Invalid username or password
+2022-09-08 13:22:02.769 +05:30 [INF] Invalid username or password
+2022-09-08 13:22:02.802 +05:30 [INF] HTTP POST /api/v1/tweets/login responded 200 in 364.9024 ms
+2022-09-08 13:22:03.346 +05:30 [INF] Entity Framework Core 6.0.8 initialized 'ApplicationDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.8' with options: None
+2022-09-08 13:22:03.676 +05:30 [ERR] Invalid username or password
+2022-09-08 13:22:03.679 +05:30 [INF] Invalid username or password
+2022-09-08 13:22:03.710 +05:30 [INF] HTTP POST /api/v1/tweets/login responded 200 in 365.4290 ms
+2022-09-08 13:22:04.154 +05:30 [INF] Entity Framework Core 6.0.8 initialized 'ApplicationDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.8' with options: None
+2022-09-08 13:22:04.470 +05:30 [ERR] Invalid username or password
+2022-09-08 13:22:04.473 +05:30 [INF] Invalid username or password
+2022-09-08 13:22:04.509 +05:30 [INF] HTTP POST /api/v1/tweets/login responded 200 in 356.1962 ms
+2022-09-08 13:22:04.887 +05:30 [INF] Entity Framework Core 6.0.8 initialized 'ApplicationDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.8' with options: None
+2022-09-08 13:22:05.203 +05:30 [ERR] Invalid username or password
+2022-09-08 13:22:05.206 +05:30 [INF] Invalid username or password
+2022-09-08 13:22:05.245 +05:30 [INF] HTTP POST /api/v1/tweets/login responded 200 in 358.3364 ms
+2022-09-08 13:22:05.647 +05:30 [INF] Entity Framework Core 6.0.8 initialized 'ApplicationDbContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer:6.0.8' with options: None
+2022-09-08 13:22:05.963 +05:30 [ERR] Invalid username or password
+2022-09-08 13:22:05.966 +05:30 [INF] Invalid username or password
+2022-09-08 13:22:05.997 +05:30 [INF] HTTP POST /api/v1/tweets/login responded 200 in 350.4320 ms

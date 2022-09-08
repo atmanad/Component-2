@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
+using Serilog;
 using System.Diagnostics;
 using System.Text;
 using TweetApp.Backend.Dto;
@@ -37,9 +38,11 @@ namespace TweetApp.Backend.Controllers
                 var tweets = await _unitOfWork.Tweet.GetAll();
                 _response.Result = tweets;
                 _response.DisplayMessage = "List of tweets fetched successfully";
+                Log.Information("List of tweets fetched successfully");
             }
             catch (Exception ex)
             {
+                Log.Error("Something went wrong!");
                 _response.IsSuccess = false;
                 _response.DisplayMessage = "Something went wrong!";
                 _response.ErrorMessages = new List<string> { ex.Message };
@@ -49,7 +52,7 @@ namespace TweetApp.Backend.Controllers
         }
 
         [HttpPost("{username}/add")]
-        public async Task<object> PostTweet([FromRoute]string username, [FromBody]CreateTweetDto tweetDto)
+        public async Task<object> PostTweet([FromRoute] string username, [FromBody] CreateTweetDto tweetDto)
         {
             try
             {
@@ -62,6 +65,9 @@ namespace TweetApp.Backend.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error("Somethin went wrong!");
+
+
                 _response.IsSuccess = false;
                 _response.DisplayMessage = "Something went wrong!";
                 //if (ex.InnerException != null)
@@ -69,7 +75,7 @@ namespace TweetApp.Backend.Controllers
                 //    List<Exception> exceptions = new List<Exception> { ex.InnerException };
                 //    _response.InnerException = exceptions;
                 //}
-                _response.ErrorMessages = new List<string> { ex.Message};
+                _response.ErrorMessages = new List<string> { ex.Message };
             }
             _messageSender.Publish(_response.DisplayMessage);
             return _response;
@@ -85,6 +91,7 @@ namespace TweetApp.Backend.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error("Something went wrong!");
                 _response.IsSuccess = false;
                 _response.DisplayMessage = "Something went wrong!";
                 _response.ErrorMessages = new List<string> { ex.Message };
@@ -107,6 +114,7 @@ namespace TweetApp.Backend.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error("Something went wrong while updating tweet! Please try again later.");
                 _response.IsSuccess = false;
                 _response.DisplayMessage = "Something went wrong while updating tweet! Please try again later.";
                 _response.ErrorMessages = new List<string> { ex.Message };
@@ -131,6 +139,7 @@ namespace TweetApp.Backend.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error("Something went wrong while deleting tweet! Please try again later.");
                 _response.IsSuccess = false;
                 _response.DisplayMessage = "Something went wrong while deleting tweet! Please try again later.";
                 _response.ErrorMessages = new List<string> { ex.Message };
@@ -156,8 +165,9 @@ namespace TweetApp.Backend.Controllers
                 _response.IsSuccess = true;
                 _response.Result = responseReply;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                Log.Error("Something went wrong");
                 _response.IsSuccess = false;
                 _response.DisplayMessage = "Something went wrong";
                 _response.ErrorMessages = new List<string> { ex.Message };
@@ -186,7 +196,7 @@ namespace TweetApp.Backend.Controllers
         }
 
         [HttpPost("{username}/reply/{id}")]
-        public async Task<object> ReplyTweet([FromRoute] string username, [FromRoute] int id,[FromBody] ReplyDto message)
+        public async Task<object> ReplyTweet([FromRoute] string username, [FromRoute] int id, [FromBody] ReplyDto message)
         {
             try
             {
@@ -203,6 +213,7 @@ namespace TweetApp.Backend.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error("Something went wrong while replying the tweet! Please try again later.");
                 _response.IsSuccess = false;
                 _response.DisplayMessage = "Something went wrong while replying the tweet! Please try again later.";
                 _response.ErrorMessages = new List<string> { ex.Message };
