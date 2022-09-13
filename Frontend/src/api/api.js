@@ -1,21 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://localhost:7149/api/v1/tweets";
-// axios.defaults.headers.common['Authorization'] = `Bearer ${GetToken()}`;
-
-// function GetToken(){
-//     const token = useSelector(state => state.auth.token);
-//     return token;
-// }
-
-// console.log(GetToken());
-
-// axios.interceptors.request.use((config) => {
-//     const token = localStorage.getItem('token');
-//     if (token) config.headers?.Authorization = `Bearer ${token}`;
-//     return config;
-// });
-
+axios.defaults.baseURL = "https://backendtweet.azurewebsites.net/api/v1/tweets"
 
 const responseBody = (response) => response.data;
 
