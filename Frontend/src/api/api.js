@@ -1,6 +1,7 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://backendtweet.azurewebsites.net/api/v1/tweets"
+axios.defaults.baseURL = "https://localhost:7149/api/v1/tweets";
+// "https://backendtweet.azurewebsites.net/api/v1/tweets"
 
 const responseBody = (response) => response.data;
 

@@ -72,6 +72,10 @@ namespace TweetApp.Backend.Controllers
 
                 _response.IsSuccess = false;
                 _response.DisplayMessage = "Something went wrong!";
+                if (ex.InnerException != null)
+                {
+                    _response.InnerException = new List<string> { ex.InnerException.Message };
+                }
                 //if (ex.InnerException != null)
                 //{
                 //    List<Exception> exceptions = new List<Exception> { ex.InnerException };

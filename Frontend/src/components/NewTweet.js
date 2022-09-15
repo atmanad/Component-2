@@ -11,6 +11,7 @@ const NewTweet = () => {
     const [tweetObj, setTweetObj] = useState({});
     const navigate = useNavigate();
     const currentUser = useSelector(state => state.user.currentUser);
+    console.log(currentUser);
     
     const handleChange = (event) => {
         setTweetObj({ ...tweetObj, [event.target.name]: event.target.value })
@@ -22,7 +23,7 @@ const NewTweet = () => {
             toast.success("Tweet posted successfully");
             navigate('/dashboard');
         },error => {
-            toast.error(error);
+            toast.error(error.message);
             console.log(error);
         });
     }

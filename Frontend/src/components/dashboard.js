@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { showLoading, hideLoading } from 'react-redux-loading'
+import { useNavigate } from 'react-router-dom';
 import Tweet from './Tweet';
 import { loadAllTweet } from '../services/TweetService';
 import { useSelector } from 'react-redux';
@@ -9,7 +10,8 @@ import { tweetActions } from '../store/tweet-slice';
 
 const Dashboard = ({ loggedIn }) => {
     const dispatch = useDispatch();
-    console.log(loggedIn);
+    const navigate = useNavigate();
+    // console.log(loggedIn);
     const loadTweets = () => {
         dispatch(showLoading());
         loadAllTweet().then(response => {
@@ -24,10 +26,11 @@ const Dashboard = ({ loggedIn }) => {
 
     useEffect(() => {
         if(loggedIn)loadTweets();
+        else navigate('/login');
     }, [loggedIn]);
 
     const tweetList = useSelector(state => state.tweet.tweetList);
-    console.log(tweetList);
+    // console.log(tweetList);
 
     if (tweetList === undefined) {
         return (<div>loading......</div>)
@@ -37,7 +40,7 @@ const Dashboard = ({ loggedIn }) => {
         tweetList.length !== 0 &&
         (
             <div>
-                <ul className='dashboard-list'>
+                <ul className='dashboard-list mt-5'>
                     {tweetList?.map((tweet) => (
                         <li key={tweet?.id}>
                             <Tweet t={tweet} reply={false}/>

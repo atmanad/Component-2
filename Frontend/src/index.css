@@ -3,42 +3,54 @@ a {
   color: #252525;
 }
 
-.btn{
+.btn {
   width: 100%;
 }
 
 .center {
   text-align: center;
-} 
+}
 
 .active {
   font-weight: bold;
 }
-.nav{
-  border-bottom:1px solid #252525;
-  font-size: 25px !important;
-}
-.nav ul {
-  display: flex;
-  padding-top: 10px;
-  flex-direction: row;
-  justify-content: flex-start;
-  text-decoration: none;
 
-}
 
-.nav li:first-child {
+/* .nav a {
+  text-decoration: none !important;
+
+} */
+
+/* .nav li:first-child {
   padding-left: 0;
-}
+}*/
 
 ul {
   padding-left: 0;
-}
+} 
 
 li {
   list-style-type: none;
   padding: 10px;
   text-decoration: none;
+} 
+
+#basic-navbar-nav a{
+  margin: auto 10px auto 10px;
+  font-size: 23px !important;
+}
+a.navbar-brand{
+  display: none;
+}
+
+@media only screen and (max-width: 500px) {
+  #basic-navbar-nav a{
+    margin: 0;
+    font-size: 18px !important;
+  }
+  a.navbar-brand{
+    display: block;
+  }
 }
 
 .avatar {
@@ -63,42 +75,49 @@ li {
   flex-direction: column;
 }
 
-/* Hacky but less typing in the video */
-.tweet-info > div > span:first-child {
+.tweet-info>div>span:first-child {
   font-weight: bold;
   margin-right: 5px;
 }
-.tweet-info > div > span:nth-child(2) {
+
+.tweet-info>div>span:nth-child(2) {
   color: #969696;
   font-size: 16px;
 }
-.tweet-info > div > div {
+
+.tweet-info>div>div {
   color: #969696;
   font-size: 15px;
 }
-.tweet-info > div > p {
+
+.tweet-info>div>p {
   font-size: 18px;
   margin: 10px 0;
 }
+
 .tweet-icons {
   display: flex;
   align-items: center;
 }
-.tweet-icons > span {
+
+.tweet-icons>span {
   color: #969696;
   margin: 0 15px 0 5px;
   font-size: 18px !important;
 }
+
 .tweet-icon {
   font-size: 27px;
   color: #697784;
 }
+
 .tweet-icon:hover {
   color: #00b5d6;
   cursor: pointer;
 }
+
 .tag {
-  color:rgb(rgb(64, 61, 61), green, blue)
+  color: rgb(rgb(64, 61, 61), green, blue)
 }
 
 .heart-button {
@@ -129,16 +148,16 @@ li {
   color: #C3392A;
 }
 
-.log-btn{
+.log-btn {
   background-color: Transparent;
-  background-repeat:no-repeat;
-  border: none;     
+  background-repeat: no-repeat;
+  border: none;
   text-decoration: none;
-  font-weight: bold;
   cursor: pointer;
   color: black;
 }
-.home{
+
+.home {
   display: flex;
   justify-content: center;
   margin-top: 30vh;
@@ -148,18 +167,23 @@ li {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
 }
+
 .loading-spinner {
   width: 50px;
   height: 50px;
-  border: 10px solid #f3f3f3; /* Light grey */
-  border-top: 10px solid #383636; /* Black */
+  border: 10px solid #f3f3f3;
+  /* Light grey */
+  border-top: 10px solid #383636;
+  /* Black */
   border-radius: 50%;
   animation: spinner 1.5s linear infinite;
 }
-.disabled{
+
+.disabled {
   pointer-events: none;
 }

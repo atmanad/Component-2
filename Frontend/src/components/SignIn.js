@@ -13,13 +13,17 @@ import { toast } from 'react-toastify';
 
 function SignIn({ loggedIn }) {
   const dispatch = useDispatch();
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if(loggedIn)navigate('/dashboard');
+  }, []);
 
   const handleSubmit = (creds) => {
     dispatch(showLoading());
     login(creds).then((res) => {
       console.log(res);
-      dispatch(authActions.login());
+      dispatch(authActions.login(res.token));
       dispatch(userActions.setUser(res.result));
       dispatch(authActions.addToken(res.token))
       console.info('Logged in');

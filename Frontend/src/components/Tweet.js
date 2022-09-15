@@ -125,11 +125,14 @@ const Tweet = ({ t, reply, profilePage }) => {
                 <div className='tweet-info'>
                     <div>
                         <span>{user?.firstName}.{user?.lastName}</span>
-                        <div>{datePosted && formatDate(datePosted)}</div>
                         <div>
+                            @{user.email}
+                        </div>
+                        <div>{datePosted && formatDate(datePosted)}</div>
+                        <div className='mt-2'>
                             #{tag}
                         </div>
-                        <p>{subject}</p>
+                        <p className='mt-0'>{subject}</p>
                     </div>
                     <div className='tweet-icons'>
                         <Link to={`/tweet/${id}`} className={reply ? "disabled" : ""}>

@@ -104,11 +104,10 @@ namespace TweetApp.Backend
                 var app = builder.Build();
 
                 // Configure the HTTP request pipeline.
-                if (app.Environment.IsDevelopment())
-                {
-                    app.UseSwagger();
-                    app.UseSwaggerUI();
-                }
+
+                app.UseSwagger();
+                app.UseSwaggerUI();
+
 
                 //app.UseRabbitListener();
                 app.UseHttpsRedirection();

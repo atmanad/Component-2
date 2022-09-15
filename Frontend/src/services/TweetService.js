@@ -110,9 +110,11 @@ export const CreateTweet = async (username, tweetObj) => {
         else {
             console.log(response.errorMessages)
             console.log(response.innerException);
+            throw Error(response.errorMessages);
         }
     } catch (error) {
         console.log(error);
+        throw Error(error);
     }
 };
 
