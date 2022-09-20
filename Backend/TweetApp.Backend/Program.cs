@@ -13,6 +13,7 @@ using TweetApp.Backend.Interfaces;
 using TweetApp.Backend.Mapper;
 using TweetApp.Backend.Rabbitmq;
 using TweetApp.Backend.Repository;
+using TweetApp.Backend.ServiceBus;
 using TweetApp.Backend.SwaggerConfiguration;
 
 namespace TweetApp.Backend
@@ -60,6 +61,7 @@ namespace TweetApp.Backend
                 //builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), providerOptions => providerOptions.EnableRetryOnFailure()));
                 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
                 builder.Services.AddScoped<IRabbitMQMessageSender, RabbitMQMessageSender>();
+                builder.Services.AddScoped<IServiceBusSender, ServiceBusSender>();
                 builder.Services.AddSingleton(mapper);
 
                 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();

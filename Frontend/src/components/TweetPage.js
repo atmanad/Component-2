@@ -1,9 +1,8 @@
-import React, { Component, useEffect, useState } from 'react';
-import { useParams,useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useParams } from "react-router-dom";
 import Tweet from './Tweet'
-import NewTweet from './NewTweet'
-import { selectTweet, loadAllTweet, postAComment } from '../services/TweetService';
-import { useSelector, useDispatch } from 'react-redux';
+import { postAComment } from '../services/TweetService';
+import { useDispatch } from 'react-redux';
 import { tweetActions } from '../store/tweet-slice';
 import Loader from './Loader';
 
@@ -14,11 +13,11 @@ const TweetPage = ({ tweetList, currentUser }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        console.log(tweetList);
+        setLoading(true);
         const tweetById = tweetList.filter(ele => ele.id == id)[0];
         setTweet(tweetById)
         setLoading(false);
-    }, []);
+    }, [tweetList]);
 
     // console.log(tweet);
 
@@ -31,9 +30,8 @@ const TweetPage = ({ tweetList, currentUser }) => {
 
 
 function TweetReply({ tweet, id, email, tweetList, setTweet }) {
-    const [reply, setReply] = useState({});
+    const [reply, setReply] = useState("");
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log(reply);
@@ -42,24 +40,23 @@ function TweetReply({ tweet, id, email, tweetList, setTweet }) {
             userId: email,
             message: reply
         }
-        let newTweet = {
-            replies:[newReply]
-        }
+
         postAComment(reply, email, id).then((res) => {
             if (res) {
                 tweetList.forEach((element, index) => {
-                    if (element.id == id) {
+                    if (element.id === id) {
                         dispatch(tweetActions.addReply({
                             index: index,
                             reply: newReply
                         }));
-                        setTweet(tweet =>({
-                            ...tweet,
-                            newTweet
-                        }));
+                        setReply("");
+                        // setTweet(tweet =>({
+                        //     ...tweet,
+                        //     newTweet
+                        // }));
                     }
                 });
-                navigate('/dashboard');
+                //navigate('/dashboard');
 
             }
         }, error => console.log(error));
@@ -72,14 +69,14 @@ function TweetReply({ tweet, id, email, tweetList, setTweet }) {
             <div>
                 <h4 className='center mt-5'>Add a reply</h4>
                 <form className='new-tweet' onSubmit={handleSubmit}>
-                    <input name='message' className='form-control mb-2' maxLength={144} placeholder='Reply...' onChange={(e) => setReply(e.target.value)} />
+                    <input name='message' className='form-control mb-2' maxLength={144} value={reply} placeholder='Reply...' onChange={(e) => setReply(e.target.value)} />
                     <button className='btn btn-primary' type='submit'>Submit</button>
                 </form>
             </div>
             {/* <NewTweet id={id} /> */}
-            {tweet.replies.length !== 0 && <h4 className='center mt-5'>Replies</h4>}
+            {tweet?.replies.length !== 0 && <h4 className='center mt-5'>Replies</h4>}
             <ul>
-                {tweet.replies.map((reply) => (
+                {tweet?.replies.map((reply) => (
                     <li key={reply.id}>
                         <div className='tweet'>
                             <div className='tweet-info'>

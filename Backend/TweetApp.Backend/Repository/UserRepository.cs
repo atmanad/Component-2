@@ -12,7 +12,7 @@ namespace TweetApp.Backend.Repository
         public async Task<bool> IsUniqueUser(string username)
         {
             var user = await Get(x => x.Email == username);
-            return user != null;
+            return user == null;
         }
     }
 }

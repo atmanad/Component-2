@@ -1,14 +1,15 @@
-import {Modal,Button, Tab, Tabs} from 'react-bootstrap';
+import { Tab, Tabs } from 'react-bootstrap';
 import Tweet from './Tweet';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { forgotPassword } from '../services/UserService';
 import { toast } from 'react-toastify'
 
 
-function Profile({ tweetList }) {
+function Profile({ tweetList, loggedIn }) {
     const [password, setPassword] = useState();
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -18,8 +19,12 @@ function Profile({ tweetList }) {
         }, error => toast.error(error));
     }
 
-    let tweets = tweetList.filter(ele => ele.userId === id);
-    console.log(tweets);
+    useEffect(() => {
+        if (!loggedIn) navigate('/login');
+    }, [loggedIn]);
+
+    let tweets = tweetList?.filter(ele => ele.userId === id);
+    // console.log(tweets);
 
 
 
@@ -39,7 +44,7 @@ function Profile({ tweetList }) {
                                 {
                                     tweets?.map(t => (
                                         <li key={t?.id}>
-                                            <Tweet t={t} reply={false} profilePage={true}/>
+                                            <Tweet t={t} reply={false} profilePage={true} />
                                         </li>
                                     ))
                                 }

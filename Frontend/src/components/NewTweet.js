@@ -1,18 +1,19 @@
-import React, { Component, useState } from 'react';
+import React, {  useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { CreateTweet } from '../services/TweetService';
-import { useSelector, useDispatch } from 'react-redux';
-import { notificationActions } from '../store/notification-slice';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
 
-const NewTweet = () => {
-    const dispatch = useDispatch();
+const NewTweet = ({loggedIn}) => {
     const [tweetObj, setTweetObj] = useState({});
     const navigate = useNavigate();
     const currentUser = useSelector(state => state.user.currentUser);
-    console.log(currentUser);
-    
+
+    useEffect(() => {
+        if(!loggedIn)navigate('/login');
+    }, [loggedIn]);
+        
     const handleChange = (event) => {
         setTweetObj({ ...tweetObj, [event.target.name]: event.target.value })
     }

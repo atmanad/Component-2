@@ -104,7 +104,7 @@ export const CreateTweet = async (username, tweetObj) => {
     try {
         var response = await api.Tweet.createTweet(tweetObj, username);
         if (response.isSuccess) {
-            console.log("Tweet posted");
+            // console.log("Tweet posted");
             // navigate('/');
         }
         else {
@@ -114,7 +114,7 @@ export const CreateTweet = async (username, tweetObj) => {
         }
     } catch (error) {
         console.log(error);
-        throw Error(error);
+        throw error;
     }
 };
 

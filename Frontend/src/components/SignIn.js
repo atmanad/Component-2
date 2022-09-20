@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import * as Yup from "yup";
 import { Formik, Form } from 'formik';
 import { useDispatch } from 'react-redux';
 import { authActions } from '../store/auth-slice';
-import { notificationActions } from '../store/notification-slice';
 import Input from './Input'
 import { login } from '../services/UserService';
 import { userActions } from '../store/user-slice';
@@ -22,29 +21,16 @@ function SignIn({ loggedIn }) {
   const handleSubmit = (creds) => {
     dispatch(showLoading());
     login(creds).then((res) => {
-      console.log(res);
       dispatch(authActions.login(res.token));
       dispatch(userActions.setUser(res.result));
       dispatch(authActions.addToken(res.token))
-      console.info('Logged in');
       dispatch(hideLoading());
       navigate('/dashboard');
     }, error => {
       dispatch(hideLoading());
-
       toast.error(error.message);
       console.log("Login error", error);
     });
-
-
-    // login(values).then(success => {
-    //   console.log("true");
-    //   dispatch(rLogin());
-    //   // navigate('/');
-    // }, error => {
-    //   console.log(error);
-    // })
-
   }
 
   const validationSchema = Yup.object({

@@ -6,12 +6,12 @@ import { loadAllTweet } from '../services/TweetService';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { tweetActions } from '../store/tweet-slice';
+import Loader from './Loader';
  
 
 const Dashboard = ({ loggedIn }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // console.log(loggedIn);
     const loadTweets = () => {
         dispatch(showLoading());
         loadAllTweet().then(response => {
@@ -25,15 +25,18 @@ const Dashboard = ({ loggedIn }) => {
 
 
     useEffect(() => {
-        if(loggedIn)loadTweets();
-        else navigate('/login');
+        if(!loggedIn)navigate('/login');
     }, [loggedIn]);
+
+    useEffect(() => {
+        if(loggedIn)loadTweets();
+    }, []);
 
     const tweetList = useSelector(state => state.tweet.tweetList);
     // console.log(tweetList);
 
     if (tweetList === undefined) {
-        return (<div>loading......</div>)
+        return <Loader />;
     }
 
     return (

@@ -1,19 +1,16 @@
-import React, { Component, useDebugValue, useState } from 'react';
-import { Modal, Button, Tab, Tabs } from 'react-bootstrap';
+import React, {  useState } from 'react';
+import { Modal} from 'react-bootstrap';
 import { FaReply } from 'react-icons/fa'
 import { FaHeart } from 'react-icons/fa'
-import { FaRegHeart, FaInfoCircle, FaEdit, FaRegTrashAlt } from 'react-icons/fa'
-// import {AiOutlineInfoCircle} from 'react-icons'
-import { Link, useNavigate } from 'react-router-dom'
+import { FaRegHeart, FaEdit, FaRegTrashAlt } from 'react-icons/fa'
+import { Link} from 'react-router-dom'
 import { deleteTweet, postALike, updateTweet } from '../services/TweetService';
 import { useSelector, useDispatch } from 'react-redux';
 import { tweetActions } from '../store/tweet-slice';
 import { toast } from 'react-toastify';
-import { useEffect } from 'react';
 
 
 const Tweet = ({ t, reply, profilePage }) => {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const currentUser = useSelector(state => state.user.currentUser);
     const tweetList = useSelector(state => state.tweet.tweetList);

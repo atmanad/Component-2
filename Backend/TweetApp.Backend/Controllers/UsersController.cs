@@ -11,7 +11,7 @@ using TweetApp.Backend.Interfaces;
 using TweetApp.Backend.Jwt;
 using TweetApp.Backend.Models;
 using TweetApp.Backend.Rabbitmq;
-
+using TweetApp.Backend.ServiceBus;
 
 namespace TweetApp.Backend.Controllers
 {
@@ -27,8 +27,9 @@ namespace TweetApp.Backend.Controllers
         private readonly IJwtService _jwtService;
         protected ResponseDto _response;
         private readonly Microsoft.Extensions.Logging.ILogger<UsersController> _logger;
+        private readonly IServiceBusSender _sender;
 
-        public UsersController(IUnitOfWork unitOfWork, IMapper mapper, IRabbitMQMessageSender messageSender, IOptions<AppSettings> appSettings, Microsoft.Extensions.Logging.ILogger<UsersController> logger)
+        public UsersController(IUnitOfWork unitOfWork, IMapper mapper, IRabbitMQMessageSender messageSender, IOptions<AppSettings> appSettings, Microsoft.Extensions.Logging.ILogger<UsersController> logger, IServiceBusSender sender)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
@@ -36,6 +37,7 @@ namespace TweetApp.Backend.Controllers
             _response = new ResponseDto();
             _jwtService = new JwtService(appSettings);
             _logger = logger;
+            _sender = sender;
         }
 
         [HttpGet("users/all")]
@@ -56,6 +58,7 @@ namespace TweetApp.Backend.Controllers
                 _response.ErrorMessages = new List<string> { ex.Message };
             }
             _messageSender.Publish(_response.DisplayMessage);
+            await _sender.SendMessageAsync(_response.DisplayMessage);
             return _response;
         }
 
@@ -70,7 +73,7 @@ namespace TweetApp.Backend.Controllers
                 if (user == null)
                 {
                     _response.DisplayMessage = "No user found";
-                    Log.Information("No user found");
+                    Log.Error("No user found");
                 }
                 else
                 {
@@ -86,6 +89,7 @@ namespace TweetApp.Backend.Controllers
                 _response.ErrorMessages = new List<string> { ex.Message };
             }
             _messageSender.Publish(_response.DisplayMessage);
+            await _sender.SendMessageAsync(_response.DisplayMessage);
             return _response;
         }
 
@@ -97,7 +101,7 @@ namespace TweetApp.Backend.Controllers
             {
                 if (!ModelState.IsValid)
                     throw new Exception("Invalid data");
-                if (!await _unitOfWork.User.IsUniqueUser(userDto.Email))
+                if (await _unitOfWork.User.IsUniqueUser(userDto.Email))
                 {
                     await _unitOfWork.User.Add(userDto);
                     await _unitOfWork.Save();
@@ -115,6 +119,7 @@ namespace TweetApp.Backend.Controllers
                 _response.ErrorMessages = new List<string> { ex.Message };
             }
             _messageSender.Publish(_response.DisplayMessage);
+            await _sender.SendMessageAsync(_response.DisplayMessage);
             return _response;
         }
 
@@ -145,6 +150,7 @@ namespace TweetApp.Backend.Controllers
                 _response.ErrorMessages = new List<string> { ex.Message };
             }
             _messageSender.Publish(_response.DisplayMessage);
+            await _sender.SendMessageAsync(_response.DisplayMessage);
             return _response;
         }
 
@@ -175,6 +181,7 @@ namespace TweetApp.Backend.Controllers
                 _response.ErrorMessages = new List<string> { ex.Message };
             }
             _messageSender.Publish(_response.DisplayMessage);
+            await _sender.SendMessageAsync(_response.DisplayMessage);
             return _response;
         }
 

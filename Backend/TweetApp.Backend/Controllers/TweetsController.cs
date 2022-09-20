@@ -2,15 +2,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-using RabbitMQ.Client;
 using Serilog;
-using System.Diagnostics;
-using System.Text;
 using TweetApp.Backend.Dto;
 using TweetApp.Backend.Interfaces;
 using TweetApp.Backend.Models;
 using TweetApp.Backend.Rabbitmq;
+using TweetApp.Backend.ServiceBus;
 
 namespace TweetApp.Backend.Controllers
 {
@@ -24,13 +21,15 @@ namespace TweetApp.Backend.Controllers
         private readonly IMapper _mapper;
         private readonly IRabbitMQMessageSender _messageSender;
         protected ResponseDto _response;
+        private readonly IServiceBusSender _sender;
 
-        public TweetsController(IUnitOfWork unitOfWork, IMapper mapper, IRabbitMQMessageSender messageSender)
+        public TweetsController(IUnitOfWork unitOfWork, IMapper mapper, IRabbitMQMessageSender messageSender, IServiceBusSender sender)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _messageSender = messageSender;
             _response = new ResponseDto();
+            _sender = sender;
         }
         [HttpGet("all")]
         public async Task<object> GetAllTweets()
@@ -50,6 +49,7 @@ namespace TweetApp.Backend.Controllers
                 _response.ErrorMessages = new List<string> { ex.Message };
             }
             _messageSender.Publish(_response.DisplayMessage);
+            await _sender.SendMessageAsync(_response.DisplayMessage);
             return _response;
         }
 
@@ -76,14 +76,10 @@ namespace TweetApp.Backend.Controllers
                 {
                     _response.InnerException = new List<string> { ex.InnerException.Message };
                 }
-                //if (ex.InnerException != null)
-                //{
-                //    List<Exception> exceptions = new List<Exception> { ex.InnerException };
-                //    _response.InnerException = exceptions;
-                //}
                 _response.ErrorMessages = new List<string> { ex.Message };
             }
             _messageSender.Publish(_response.DisplayMessage);
+            await _sender.SendMessageAsync(_response.DisplayMessage);
             return _response;
         }
 
@@ -103,6 +99,7 @@ namespace TweetApp.Backend.Controllers
                 _response.ErrorMessages = new List<string> { ex.Message };
             }
             _messageSender.Publish(_response.DisplayMessage);
+            await _sender.SendMessageAsync(_response.DisplayMessage);
             return _response;
         }
 
@@ -126,6 +123,7 @@ namespace TweetApp.Backend.Controllers
                 _response.ErrorMessages = new List<string> { ex.Message };
             }
             _messageSender.Publish(_response.DisplayMessage);
+            await _sender.SendMessageAsync(_response.DisplayMessage);
             return _response;
         }
 
@@ -151,6 +149,7 @@ namespace TweetApp.Backend.Controllers
                 _response.ErrorMessages = new List<string> { ex.Message };
             }
             _messageSender.Publish(_response.DisplayMessage);
+            await _sender.SendMessageAsync(_response.DisplayMessage);
             return _response;
         }
 
@@ -198,6 +197,7 @@ namespace TweetApp.Backend.Controllers
                 _response.DisplayMessage = "Something went wrong.";
                 _response.ErrorMessages = new List<string> { ex.Message };
             }
+            await _sender.SendMessageAsync(_response.DisplayMessage);
             return _response;
         }
 
@@ -225,6 +225,7 @@ namespace TweetApp.Backend.Controllers
                 _response.ErrorMessages = new List<string> { ex.Message };
             }
             _messageSender.Publish(_response.DisplayMessage);
+            await _sender.SendMessageAsync(_response.DisplayMessage);
             return _response;
         }
 
@@ -266,6 +267,7 @@ namespace TweetApp.Backend.Controllers
                 _response.ErrorMessages = new List<string> { ex.Message };
             }
             _messageSender.Publish(_response.DisplayMessage);
+            await _sender.SendMessageAsync(_response.DisplayMessage);
             return _response;
         }
 
@@ -287,6 +289,7 @@ namespace TweetApp.Backend.Controllers
                 _response.DisplayMessage = "Something went wrong while displaying the tweet! Please try again later.";
                 _response.ErrorMessages = new List<string> { ex.Message };
             }
+            await _sender.SendMessageAsync(_response.DisplayMessage);
             return _response;
         }
 
@@ -307,6 +310,7 @@ namespace TweetApp.Backend.Controllers
                 _response.DisplayMessage = "Something went wrong.";
                 _response.ErrorMessages = new List<string> { ex.Message };
             }
+            await _sender.SendMessageAsync(_response.DisplayMessage);
             return _response;
         }
 

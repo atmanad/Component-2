@@ -25,11 +25,11 @@ function Register() {
     if (values.password !== values.confirmPassword) {
       return
     }
-    register(values).then(() => {
-      toast.success("Registraion successful");
+    register(values).then((res) => {
+      if(res)toast.success("Registraion successful");
       navigate('/login');
     }, error => {
-      console.log("registration error", error);
+      toast.error(error.message)
     })
   }
 

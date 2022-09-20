@@ -1,8 +1,4 @@
-﻿using Newtonsoft.Json;
-using RabbitMQ.Client;
-using System.Text;
-
-namespace TweetApp.Backend.Rabbitmq
+﻿namespace TweetApp.Backend.Rabbitmq
 {
     public class RabbitMQMessageSender : IRabbitMQMessageSender
     {

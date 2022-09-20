@@ -4,10 +4,12 @@ export const register = async (credentials) => {
     try {
         const response = await api.User.register(credentials);
         if (response.isSuccess) {
-            console.log("registration successful");
+            return response.isSuccess;
+        }
+        else{
+            throw new Error(response.errorMessages);
         }
     } catch (error) {
-        console.log(error);
         throw error;
     }
 };
