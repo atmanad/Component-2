@@ -54,8 +54,8 @@ function Register() {
                   <Input name="lastName" placeholder="Enter Last Name" />
                   <Input name="email" placeholder="Enter Email" />
                   <Input name="contactNumber" placeholder="Enter Contact Number" />
-                  <Input name="password" type="password" placeholder="Enter Password" />
-                  <Input name="confirmPassword" type="password" placeholder="Confirm Password" label="Confirm Password" />
+                  <Input name="password" type="password" placeholder="Enter Password" autoComplete="off"/>
+                  <Input name="confirmPassword" type="password" placeholder="Confirm Password" label="Confirm Password" autoComplete="off"/>
                   {touched.confirmPassword && touched.password && values.password !== values.confirmPassword ? (
                     <div className='text-danger m-0'>Password and confirm password don't match</div>
                   ) : null}

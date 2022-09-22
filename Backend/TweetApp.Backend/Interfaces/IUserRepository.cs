@@ -3,8 +3,8 @@ using TweetApp.Backend.Models;
 
 namespace TweetApp.Backend.Interfaces
 {
-    public interface IUserRepository:IGenericRepository<User>
+    public interface IUserRepository : IGenericRepository<User>
     {
-       Task<bool> IsUniqueUser(string username);
+        Task<bool> IsUniqueUser(string username);
     }
 }

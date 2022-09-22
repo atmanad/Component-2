@@ -8,7 +8,7 @@ services:
     # build: 
     #   context: .
     #   dockerfile: Dockerfile.dev
-    image: atmanregistry.azurecr.io/tweetappfrontend  #you can add a tag here
+    image: atmanregistry.azurecr.io/frontend:20.09  #you can add a tag here
     build:
       context: .
       dockerfile: Dockerfile.prod

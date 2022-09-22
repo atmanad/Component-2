@@ -1,6 +1,6 @@
 ﻿namespace TweetApp.Backend.Interfaces
 {
-    public interface IUnitOfWork:IDisposable
+    public interface IUnitOfWork : IDisposable
     {
         IUserRepository User { get; }
         ITweetRepository Tweet { get; }

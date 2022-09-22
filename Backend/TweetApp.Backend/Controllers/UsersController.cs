@@ -135,10 +135,8 @@ namespace TweetApp.Backend.Controllers
                 if (user == null) throw new Exception("Invalid username or password");
 
                 var token = _jwtService.GenerateToken(model);
-                _response.Result = user;
                 _response.DisplayMessage = "Login successful for " + model.Username;
                 _response.Token = token;
-                // _logger.LogInformation("Logged in user {user}", model.Username);
             }
             catch (Exception ex)
             {

@@ -2,7 +2,7 @@
 
 namespace TweetApp.Backend.Interfaces
 {
-    public interface ITweetRepository:IGenericRepository<Tweet>
+    public interface ITweetRepository : IGenericRepository<Tweet>
     {
     }
 }

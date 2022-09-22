@@ -4,7 +4,7 @@ using TweetApp.Backend.Models;
 
 namespace TweetApp.Backend.Mapper
 {
-    public class Mappings:Profile
+    public class Mappings : Profile
     {
         public Mappings()
         {

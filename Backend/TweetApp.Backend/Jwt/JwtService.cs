@@ -7,7 +7,7 @@ using TweetApp.Backend.Dto;
 
 namespace TweetApp.Backend.Jwt
 {
-    public class JwtService:IJwtService
+    public class JwtService : IJwtService
     {
         private readonly AppSettings _appSettings;
         public JwtService(IOptions<AppSettings> appSettings)

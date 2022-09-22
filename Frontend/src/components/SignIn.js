@@ -56,7 +56,7 @@ function SignIn({ loggedIn }) {
                   </div>
                   <Form>
                     <Input name="username" placeholder="Enter email" type="email" />
-                    <Input name="password" placeholder="Enter Password" type="password" />
+                    <Input name="password" placeholder="Enter Password" type="password" autoComplete="on"/>
 
                     <button type="submit" className="btn btn-primary mt-4">
                       Submit

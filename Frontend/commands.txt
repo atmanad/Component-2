@@ -33,3 +33,9 @@ Data Source=tweetapp-server-atman.database.windows.net;User ID=sql-admin;Passwor
 
 how to add tag
 docker tag imagename:tag tagname:tag
+
+docker tag atmanregistry.azurecr.io/tweetappfrontend:latest atmanregistry.azurecr.io/tweetappfrontend:20.09
+
+to push a docker image to azure container registry
+az login 
+az acr login --name registryname

@@ -15,7 +15,7 @@ namespace TweetApp.Backend.Repository
 
         }
 
-        public IUserRepository User {get; private set;}
+        public IUserRepository User { get; private set; }
         public ITweetRepository Tweet { get; private set; }
         public ILikeRepository Like { get; private set; }
         public ITweetReplyRepository TweetReply { get; private set; }

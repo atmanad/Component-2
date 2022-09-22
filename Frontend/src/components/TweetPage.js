@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from "react-router-dom";
 import Tweet from './Tweet'
 import { postAComment } from '../services/TweetService';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { tweetActions } from '../store/tweet-slice';
 import Loader from './Loader';
 
 
-const TweetPage = ({ tweetList, currentUser }) => {
+const TweetPage = ({tweetList,currentUser }) => {
     const [tweet, setTweet] = useState("");
     const { id } = useParams();
     const [loading, setLoading] = useState(true);
@@ -40,20 +40,23 @@ function TweetReply({ tweet, id, email, tweetList, setTweet }) {
             userId: email,
             message: reply
         }
+        let newTweet = {
+            replies:[newReply]
+        }
 
         postAComment(reply, email, id).then((res) => {
             if (res) {
                 tweetList.forEach((element, index) => {
-                    if (element.id === id) {
+                    if (element.id == id) {
                         dispatch(tweetActions.addReply({
                             index: index,
                             reply: newReply
                         }));
                         setReply("");
-                        // setTweet(tweet =>({
-                        //     ...tweet,
-                        //     newTweet
-                        // }));
+                        setTweet(tweet =>({
+                            ...tweet,
+                            newTweet
+                        }));
                     }
                 });
                 //navigate('/dashboard');
@@ -62,7 +65,6 @@ function TweetReply({ tweet, id, email, tweetList, setTweet }) {
         }, error => console.log(error));
     }
 
-    console.log(tweet);
     return (
         <div className='mt-5'>
             <Tweet t={tweet} reply={true} />
@@ -70,14 +72,14 @@ function TweetReply({ tweet, id, email, tweetList, setTweet }) {
                 <h4 className='center mt-5'>Add a reply</h4>
                 <form className='new-tweet' onSubmit={handleSubmit}>
                     <input name='message' className='form-control mb-2' maxLength={144} value={reply} placeholder='Reply...' onChange={(e) => setReply(e.target.value)} />
-                    <button className='btn btn-primary' type='submit'>Submit</button>
+                    <button className='btn btn-primary' type='submit' disabled={reply == ""}>Submit</button>
                 </form>
             </div>
             {/* <NewTweet id={id} /> */}
             {tweet?.replies.length !== 0 && <h4 className='center mt-5'>Replies</h4>}
             <ul>
                 {tweet?.replies.map((reply) => (
-                    <li key={reply.id}>
+                    <li key={Math.random()}>
                         <div className='tweet'>
                             <div className='tweet-info'>
                                 <div>

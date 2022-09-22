@@ -5,28 +5,28 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace TweetApp.Backend.SwaggerConfiguration
 {
-        public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
+    public class ConfigureSwaggerOptions : IConfigureOptions<SwaggerGenOptions>
+    {
+        private readonly IApiVersionDescriptionProvider provider;
+        public ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider) => this.provider = provider;
+        public void Configure(SwaggerGenOptions options)
         {
-            private readonly IApiVersionDescriptionProvider provider;
-            public ConfigureSwaggerOptions(IApiVersionDescriptionProvider provider) => this.provider = provider;
-            public void Configure(SwaggerGenOptions options)
+            foreach (var desc in provider.ApiVersionDescriptions)
             {
-                foreach (var desc in provider.ApiVersionDescriptions)
+                options.SwaggerDoc(desc.GroupName, new OpenApiInfo()
                 {
-                    options.SwaggerDoc(desc.GroupName, new OpenApiInfo()
-                    {
-                        Title = $"TweetApp",
-                        Version = desc.ApiVersion.ToString()
-                    });
-                    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                    {
-                        Description = @"Enter 'Bearer'[space] and then token",
-                        Name = "Authorization",
-                        In = ParameterLocation.Header,
-                        Type = SecuritySchemeType.ApiKey,
-                        Scheme = "Bearer"
-                    });
-                    options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                    Title = $"TweetApp",
+                    Version = desc.ApiVersion.ToString()
+                });
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = @"Enter 'Bearer'[space] and then token",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer"
+                });
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement()
                 {
                     {
                         new OpenApiSecurityScheme
@@ -42,7 +42,7 @@ namespace TweetApp.Backend.SwaggerConfiguration
                         },new List<string>()
                     }
                 });
-                }
             }
         }
+    }
 }
