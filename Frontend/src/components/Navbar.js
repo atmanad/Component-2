@@ -9,7 +9,8 @@ import { authActions } from '../store/auth-slice';
 function Navigationbar() {
     const currentUser = useSelector(state => state.user.currentUser);
     const loggedIn = useSelector(state => state.auth.isLoggedIn);
-
+    console.log(currentUser);
+    console.log(loggedIn);
     return (
         <>
             <Navbar bg="light" expand="md">

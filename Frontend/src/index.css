@@ -192,3 +192,11 @@ a.navbar-brand{
   justify-content: center;
   margin-top: 40vh;
 }
+.navbar{
+  background: rgb(2,0,36) !important;
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(93,74,204,1) 12%, rgba(0,212,255,1) 100%) !important;
+  color: white !important;;
+}
+.navbar-nav a.active{
+  color: white !important;
+}

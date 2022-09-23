@@ -1,6 +1,0 @@
-{"@t":"2022-09-13T19:03:17.8857372Z","@mt":"Starting web host"}
-{"@t":"2022-09-13T19:03:20.5640314Z","@mt":"Now listening on: {address}","address":"https://localhost:7149","EventId":{"Id":14,"Name":"ListeningOnAddress"},"SourceContext":"Microsoft.Hosting.Lifetime"}
-{"@t":"2022-09-13T19:03:20.5801604Z","@mt":"Now listening on: {address}","address":"http://localhost:5149","EventId":{"Id":14,"Name":"ListeningOnAddress"},"SourceContext":"Microsoft.Hosting.Lifetime"}
-{"@t":"2022-09-13T19:03:20.5906058Z","@mt":"Application started. Press Ctrl+C to shut down.","SourceContext":"Microsoft.Hosting.Lifetime"}
-{"@t":"2022-09-13T19:03:20.5990192Z","@mt":"Hosting environment: {envName}","envName":"Development","SourceContext":"Microsoft.Hosting.Lifetime"}
-{"@t":"2022-09-13T19:03:20.6059671Z","@mt":"Content root path: {contentRoot}","contentRoot":"C:\\Users\\cogdotnet1008\\Downloads\\Component_2\\Backend\\TweetApp.Backend\\","SourceContext":"Microsoft.Hosting.Lifetime"}
