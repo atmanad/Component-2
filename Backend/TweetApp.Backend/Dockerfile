@@ -1,22 +1,22 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
-WORKDIR /app
-EXPOSE 80
-EXPOSE 443
-
+# Build stage
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /src
+WORKDIR /app
+
+# Copy and restore project files
 COPY ["TweetApp.Backend.csproj", "."]
 RUN dotnet restore "./TweetApp.Backend.csproj"
+
+# Copy the entire project and build
 COPY . .
-WORKDIR "/src/."
-RUN dotnet build "TweetApp.Backend.csproj" -c Release -o /app/build
+RUN dotnet publish -c Release -o out
 
-FROM build AS publish
-RUN dotnet publish "TweetApp.Backend.csproj" -c Release -o /app/publish /p:UseAppHost=false
-
-FROM base AS final
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app/out ./
+
+# Expose port 80
+EXPOSE 80
+
+# Set the entry point for the container
 ENTRYPOINT ["dotnet", "TweetApp.Backend.dll"]
